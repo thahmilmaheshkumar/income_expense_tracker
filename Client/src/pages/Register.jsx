@@ -10,10 +10,12 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { dispatch } = useAppContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -28,6 +30,8 @@ export default function Register() {
     } catch (error) {
       console.log("Registration failed:", error.response);
       toast.error(error.response.data.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -139,9 +143,33 @@ export default function Register() {
                 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="ui-btn ui-btn-accent w-full"
+                className={`ui-btn ui-btn-accent w-full ${
+                  loading
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700"
+                }`}
+                disabled={loading}
               >
-                Create Account
+                {loading ? (
+                  <div className="flex gap-1">
+                    {[0, 1, 2].map((dot) => (
+                      <motion.span
+                        key={dot}
+                        className="w-2 h-2 bg-white rounded-full"
+                        animate={{
+                          y: [0, -8, 0],
+                        }}
+                        transition={{
+                          duration: 0.5,
+                          repeat: Infinity,
+                          delay: dot * 0.2,
+                        }}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  "Create Account"
+                )}
               </motion.button>
             </form>
 
