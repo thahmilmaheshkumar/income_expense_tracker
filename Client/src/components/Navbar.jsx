@@ -41,8 +41,8 @@ export default function Navbar() {
   return (
     <>
       {loading && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="flex gap-2">
+        <div className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
+          <div className="flex gap-3">
             {[0, 1, 2].map((dot) => (
               <motion.div
                 key={dot}
@@ -58,6 +58,10 @@ export default function Navbar() {
               />
             ))}
           </div>
+
+          <p className="text-white mt-6 text-lg font-semibold tracking-wide">
+            Logging out...
+          </p>
         </div>
       )}
       <motion.nav
